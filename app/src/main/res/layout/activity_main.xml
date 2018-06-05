@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hyeongpil.android_pos.MainActivity"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/tv_main_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상품\n등록"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/tv_main_sell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상품\n판매"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/tv_main_calc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="판매\n정산"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ㅁㅁ\nㅁㅁ"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
