@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,10 +37,18 @@ public class MainActivity extends AppCompatActivity {
             Intent intent;
             @Override
             public void onClick(View view) {
+                Log.e(TAG,"get id : "+view.getId());
                 switch (view.getId()){
                     case R.id.tv_main_item:
+                        Log.e(TAG,"main_item");
                         intent = new Intent(mContext,ItemActivity.class);
-                        return;
+                        break;
+                    case R.id.tv_main_sell:
+                        Log.e(TAG,"main_sell");
+                        break;
+                    case R.id.tv_main_calc:
+                        Log.e(TAG,"main_calc");
+                        break;
                 }
                 startActivity(intent);
             }
