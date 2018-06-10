@@ -2,11 +2,20 @@ package com.hyeongpil.android_pos;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import com.hyeongpil.android_pos.model.ItemModel;
+import com.hyeongpil.android_pos.retrofit.GetItemListThread;
+import com.hyeongpil.android_pos.retrofit.ItemAddThread;
+import com.hyeongpil.android_pos.util.BasicValue;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
 
         init();
+        getItemList();
+    }
+
+    private void getItemList() {
+        Handler handler = new GetItemListReceiveHandler();
+        Thread getItemListThread = new GetItemListThread(handler,mContext);
+        getItemListThread.start();
     }
 
     private void init() {
@@ -59,6 +75,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    private class GetItemListReceiveHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.d(TAG,"GetItemListReceiveHandler in");
+            List<ItemModel> itemModelList = (List<ItemModel>)msg.getData().getSerializable("itemModelList");
+            BasicValue.getInstance().setItemModelList(itemModelList);
+        }
+    }
 
 }
+

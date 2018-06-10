@@ -11,8 +11,8 @@ public class ReciptModel {
     private List <ItemModel> items;
     private int cardPrice; // 카드
     private int cashPrice; // 현금
-    private Timestamp time;
-    private String cancle_yn; // 취소여부 플래그
+    private Timestamp timestamp;
+    private String cancel_yn; // 취소여부 플래그
 
 
     public List<ItemModel> getItems() {
@@ -40,18 +40,18 @@ public class ReciptModel {
     }
 
     public Timestamp getTime() {
-        return time;
+        return timestamp;
     }
 
     public void setTime(Timestamp time) {
-        this.time = time;
+        this.timestamp = time;
     }
 
-    public String getCancle_yn() {
-        return cancle_yn;
+    public String getCancel_yn() {
+        return cancel_yn;
     }
 
-    public void setCancle_yn(String cancle_yn) {
-        this.cancle_yn = cancle_yn;
+    public void setCancel_yn(String cancel_yn) {
+        this.cancel_yn = cancel_yn;
     }
 }

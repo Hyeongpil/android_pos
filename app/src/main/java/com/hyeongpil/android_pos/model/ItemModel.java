@@ -1,16 +1,24 @@
 package com.hyeongpil.android_pos.model;
 
-import android.net.Uri;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-
 /**
  * Created by hyeongpil on 2018-06-06.
  */
 
 public class ItemModel implements Serializable{
+
+    @SerializedName("name")
+    @Expose
     private String name;
+    @SerializedName("price")
+    @Expose
     private int price;
+    @SerializedName("image_url")
+    @Expose
+    private String imageUrl;
 
     public String getImageUrl() {
         return imageUrl;
@@ -19,8 +27,6 @@ public class ItemModel implements Serializable{
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
-    private String imageUrl;
 
     public String getName() {
         return name;

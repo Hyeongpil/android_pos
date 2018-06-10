@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hyeongpil.android_pos.model.ItemModel;
@@ -103,9 +104,13 @@ public class ItemActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ITEM_ADD){
-            ItemModel item = (ItemModel)data.getSerializableExtra("item");
-            itemModels.add((ItemModel)data.getSerializableExtra("item"));
-            rv_item.getAdapter().notifyDataSetChanged();
+            try{
+                itemModels.add((ItemModel)data.getSerializableExtra("item"));
+                rv_item.getAdapter().notifyDataSetChanged();
+            }catch (Exception e){
+                Toast.makeText(mContext, "상품 추가 실패", Toast.LENGTH_SHORT).show();
+                Log.e(TAG,"error :"+e);
+            }
         }
     }
 }

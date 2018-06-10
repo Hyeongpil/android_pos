@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hyeongpil.android_pos.model.ItemModel;
+import com.hyeongpil.android_pos.retrofit.ItemAddThread;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +54,8 @@ public class ItemAddActivity extends AppCompatActivity {
     private ItemModel item;
     private String mCurrentPhotoPath;
     private Uri cameraUri, photoUri, albumUri;
+    private String name, imageUrl = "";
+    private int price;
 
     @Bind(R.id.iv_item_add_imageUrl)
     ImageView iv_imageUrl;
@@ -107,13 +112,15 @@ public class ItemAddActivity extends AppCompatActivity {
                 if(et_name.getText().toString().equals("") || et_price.getText().toString().equals("")){
                     Toast.makeText(mContext, "이름과 가격은 필수로 입력해야합니다.", Toast.LENGTH_SHORT).show();
                 }else{
-                    item.setName(et_name.getText().toString());
-                    item.setPrice(Integer.parseInt(et_price.getText().toString()));
-                    Log.e(TAG,"itemprice : "+item.getPrice() + "itemName : "+item.getName());
-                    Intent intent = new Intent();
-                    intent.putExtra("item", item);
-                    setResult(ItemActivity.ITEM_ADD, intent);
-                    finish();
+                    name = et_name.getText().toString();
+                    price = Integer.parseInt(et_price.getText().toString());
+                    item.setName(name);
+                    item.setPrice(price);
+                    Log.e(TAG,"itemprice : "+item.getPrice() + "itemName : "+item.getName()+"url : "+imageUrl);
+                    Handler handler = new ItemAddReceiveHandler();
+                    Thread itemAddThread = new ItemAddThread(handler,mContext,name,price,imageUrl);
+                    itemAddThread.start();
+
                 }
             }
         });
@@ -237,9 +244,9 @@ public class ItemAddActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     try {
                         Log.i("REQUEST_TAKE_PHOTO", "OK");
-                        cropImage();
                         item.setImageUrl(cameraUri.toString());
                         Glide.with(mContext).load(cameraUri).into(iv_imageUrl);
+                        imageUrl = cameraUri.toString();
                     } catch (Exception e) {
                         Log.e("REQUEST_TAKE_PHOTO", e.toString());
                     }
@@ -268,6 +275,7 @@ public class ItemAddActivity extends AppCompatActivity {
                     galleryAddPic();
                     item.setImageUrl(albumUri.toString());
                     Glide.with(mContext).load(albumUri).into(iv_imageUrl);
+                    imageUrl = albumUri.toString();
                 }
                 break;
         }
@@ -290,5 +298,19 @@ public class ItemAddActivity extends AppCompatActivity {
 
         return imageFile;
     }
+
+    private class ItemAddReceiveHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.e(TAG,"ItemAddReceiveHandler in");
+            Intent intent = new Intent();
+            intent.putExtra("item", item);
+            setResult(ItemActivity.ITEM_ADD, intent);
+            finish();
+        }
+    }
+
+
 
 }
