@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.hyeongpil.android_pos.model.ItemModel;
 import com.hyeongpil.android_pos.retrofit.ItemAddThread;
+import com.hyeongpil.android_pos.util.AES256Chiper;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +57,7 @@ public class ItemAddActivity extends AppCompatActivity {
     private Uri cameraUri, photoUri, albumUri;
     private String name, imageUrl = "";
     private int price;
+    private String ecy;
 
     @Bind(R.id.iv_item_add_imageUrl)
     ImageView iv_imageUrl;
@@ -116,9 +118,15 @@ public class ItemAddActivity extends AppCompatActivity {
                     price = Integer.parseInt(et_price.getText().toString());
                     item.setName(name);
                     item.setPrice(price);
+                    try {
+                        ecy = AES256Chiper.AES_Encode("test");
+                    }catch (Exception e){
+                        Log.e(TAG,"암호화 오류 : "+e.getMessage());
+
+                    }
                     Log.e(TAG,"itemprice : "+item.getPrice() + "itemName : "+item.getName()+"url : "+imageUrl);
                     Handler handler = new ItemAddReceiveHandler();
-                    Thread itemAddThread = new ItemAddThread(handler,mContext,name,price,imageUrl);
+                    Thread itemAddThread = new ItemAddThread(handler,mContext,name,price,imageUrl,ecy);
                     itemAddThread.start();
                     finish();
                 }

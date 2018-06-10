@@ -13,6 +13,6 @@ public class ItemApiService {
     public interface ItemAddInterface {
         @FormUrlEncoded
         @POST("item/itemAdd")
-        Call<ItemApiService>itemAdd_retrofit(@Field("name") String name, @Field("price") int price, @Field("imageUrl") String imageUrl);
+        Call<ItemApiService>itemAdd_retrofit(@Field("name") String name, @Field("price") int price, @Field("imageUrl") String imageUrl, @Field("ecy") String ecy);
     }
 }

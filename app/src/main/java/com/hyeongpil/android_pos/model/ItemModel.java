@@ -19,6 +19,9 @@ public class ItemModel implements Serializable{
     @SerializedName("image_url")
     @Expose
     private String imageUrl;
+    @SerializedName("ecy")
+    @Expose
+    private String ecy;
 
     public String getImageUrl() {
         return imageUrl;
@@ -42,6 +45,10 @@ public class ItemModel implements Serializable{
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getEcy() {
+        return ecy;
     }
 
 }

@@ -2,27 +2,18 @@ package com.hyeongpil.android_pos;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.hyeongpil.android_pos.model.ItemModel;
-import com.hyeongpil.android_pos.retrofit.GetItemListThread;
-import com.hyeongpil.android_pos.retrofit.ItemAddThread;
-import com.hyeongpil.android_pos.util.BasicValue;
-
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     final static String TAG = MainActivity.class.getSimpleName();
-    Context mContext;
+    private Context mContext;
 
     @Bind(R.id.tv_main_item)
     TextView tv_item;
@@ -42,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void init() {
         View.OnClickListener clickListener = new View.OnClickListener() {
             Intent intent;
@@ -55,9 +45,11 @@ public class MainActivity extends AppCompatActivity {
                         intent = new Intent(mContext,ItemActivity.class);
                         break;
                     case R.id.tv_main_sell:
+                        intent = new Intent(mContext,SellActivity.class);
                         Log.e(TAG,"main_sell");
                         break;
                     case R.id.tv_main_calc:
+                        intent = new Intent(mContext,CalcActivity.class);
                         Log.e(TAG,"main_calc");
                         break;
                 }

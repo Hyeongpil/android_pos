@@ -26,14 +26,16 @@ public class ItemAddThread extends Thread{
     private String name;
     private int price;
     private String imageUrl;
+    private String ecy;
 
-    public ItemAddThread(Handler handler, Context mContext, String name, int price, String imageUrl){
+    public ItemAddThread(Handler handler, Context mContext, String name, int price, String imageUrl, String ecy){
         super();
         this.handler = handler;
         this.mContext = mContext;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
+        this.ecy = ecy;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class ItemAddThread extends Thread{
         super.run();
         Retrofit client = new Retrofit.Builder().baseUrl(BasicValue.getInstance().getBaseUrl()).addConverterFactory(GsonConverterFactory.create()).build();
         ItemApiService.ItemAddInterface service = client.create(ItemApiService.ItemAddInterface.class);
-        Call<ItemApiService> call = service.itemAdd_retrofit(name,price,imageUrl);
+        Call<ItemApiService> call = service.itemAdd_retrofit(name,price,imageUrl,ecy);
         call.enqueue(new Callback<ItemApiService>() {
             @Override
             public void onResponse(Call<ItemApiService> call, Response<ItemApiService> response) {

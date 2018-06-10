@@ -2,11 +2,14 @@ package com.hyeongpil.android_pos;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+
+import com.hyeongpil.android_pos.util.BaseActivity;
+import com.melnykov.fab.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,10 +24,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.hyeongpil.android_pos.model.ItemModel;
 import com.hyeongpil.android_pos.retrofit.GetItemListThread;
+import com.hyeongpil.android_pos.util.AES256Chiper;
 import com.hyeongpil.android_pos.util.BasicValue;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,9 +38,10 @@ import butterknife.ButterKnife;
  * Created by hyeongpil on 2018-06-06.
  */
 
-public class ItemActivity extends AppCompatActivity {
+public class ItemActivity extends BaseActivity {
     final static String TAG = ItemActivity.class.getSimpleName();
     final static int ITEM_ADD = 1234;
+    private View containView;
     private Context mContext;
     List<ItemModel> itemModelList;
 
@@ -47,16 +53,18 @@ public class ItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item);
+        container.setLayoutResource(R.layout.activity_item);
+        containView = container.inflate();
         ButterKnife.bind(this);
         mContext = this;
+        actionBarTitleSet("상품 목록", Color.WHITE);
 
         getItemList();
-        init();
+        itemInit();
     }
 
 
-    private void init() {
+    private void itemInit() {
         itemModelList = new ArrayList<>();
         rv_item.setLayoutManager(new LinearLayoutManager(this));
         rv_item.setAdapter(new ItemRecyclerAdapter());
@@ -67,6 +75,7 @@ public class ItemActivity extends AppCompatActivity {
                 startActivityForResult(intent,ITEM_ADD);
             }
         });
+        fabtn_add.attachToRecyclerView(rv_item);
     }
 
     private void getItemList() {
@@ -75,12 +84,6 @@ public class ItemActivity extends AppCompatActivity {
         getItemListThread.start();
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
 
     class ItemRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
@@ -142,6 +145,12 @@ public class ItemActivity extends AppCompatActivity {
             BasicValue.getInstance().setItemModelList(itemModelList);
             ItemActivity.this.itemModelList = itemModelList;
             rv_item.getAdapter().notifyDataSetChanged();
+            Log.e(TAG,"ecy :"+itemModelList.get(itemModelList.size()-1).getEcy());
+            try {
+                Log.e(TAG,"dcy : "+ AES256Chiper.AES_Decode(itemModelList.get(itemModelList.size()-1).getEcy()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
