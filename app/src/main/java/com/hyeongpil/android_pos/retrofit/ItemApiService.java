@@ -9,10 +9,10 @@ import retrofit2.http.POST;
  * Created by hyeongpil on 2018-06-09.
  */
 
-public class ItemAddRepo {
+public class ItemApiService {
     public interface ItemAddInterface {
         @FormUrlEncoded
         @POST("item/itemAdd")
-        Call<ItemAddRepo>itemAdd_retrofit(@Field("name") String name, @Field("price") int price, @Field("imageUrl") String imageUrl);
+        Call<ItemApiService>itemAdd_retrofit(@Field("name") String name, @Field("price") int price, @Field("imageUrl") String imageUrl);
     }
 }

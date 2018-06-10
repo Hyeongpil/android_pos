@@ -120,7 +120,7 @@ public class ItemAddActivity extends AppCompatActivity {
                     Handler handler = new ItemAddReceiveHandler();
                     Thread itemAddThread = new ItemAddThread(handler,mContext,name,price,imageUrl);
                     itemAddThread.start();
-
+                    finish();
                 }
             }
         });
@@ -304,9 +304,6 @@ public class ItemAddActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Log.e(TAG,"ItemAddReceiveHandler in");
-            Intent intent = new Intent();
-            intent.putExtra("item", item);
-            setResult(ItemActivity.ITEM_ADD, intent);
             finish();
         }
     }

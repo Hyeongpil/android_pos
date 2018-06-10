@@ -13,9 +13,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
 
 /**
  * Created by hyeongpil on 2018-06-09.
@@ -25,7 +22,7 @@ public class ItemAddThread extends Thread{
     final static String TAG = ItemAddThread.class.getSimpleName();
     private Context mContext;
     private Handler handler;
-    private ItemAddRepo itemAddRepo;
+    private ItemApiService itemApiService;
     private String name;
     private int price;
     private String imageUrl;
@@ -43,11 +40,11 @@ public class ItemAddThread extends Thread{
     public void run() {
         super.run();
         Retrofit client = new Retrofit.Builder().baseUrl(BasicValue.getInstance().getBaseUrl()).addConverterFactory(GsonConverterFactory.create()).build();
-        ItemAddRepo.ItemAddInterface service = client.create(ItemAddRepo.ItemAddInterface.class);
-        Call<ItemAddRepo> call = service.itemAdd_retrofit(name,price,imageUrl);
-        call.enqueue(new Callback<ItemAddRepo>() {
+        ItemApiService.ItemAddInterface service = client.create(ItemApiService.ItemAddInterface.class);
+        Call<ItemApiService> call = service.itemAdd_retrofit(name,price,imageUrl);
+        call.enqueue(new Callback<ItemApiService>() {
             @Override
-            public void onResponse(Call<ItemAddRepo> call, Response<ItemAddRepo> response) {
+            public void onResponse(Call<ItemApiService> call, Response<ItemApiService> response) {
                 if(response.isSuccessful()){
                     Log.e(TAG,"response.raw :"+response.raw());
                     Message msg = Message.obtain();
@@ -61,7 +58,7 @@ public class ItemAddThread extends Thread{
             }
 
             @Override
-            public void onFailure(Call<ItemAddRepo> call, Throwable t) {
+            public void onFailure(Call<ItemApiService> call, Throwable t) {
                 Log.e(TAG,"itemAdd 실패 :"+t.getMessage());
             }
         });

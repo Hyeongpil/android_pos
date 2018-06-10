@@ -39,14 +39,9 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
 
         init();
-        getItemList();
     }
 
-    private void getItemList() {
-        Handler handler = new GetItemListReceiveHandler();
-        Thread getItemListThread = new GetItemListThread(handler,mContext);
-        getItemListThread.start();
-    }
+
 
     private void init() {
         View.OnClickListener clickListener = new View.OnClickListener() {
@@ -73,16 +68,6 @@ public class MainActivity extends AppCompatActivity {
         tv_sell.setOnClickListener(clickListener);
         tv_calc.setOnClickListener(clickListener);
 
-    }
-
-    private class GetItemListReceiveHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            Log.d(TAG,"GetItemListReceiveHandler in");
-            List<ItemModel> itemModelList = (List<ItemModel>)msg.getData().getSerializable("itemModelList");
-            BasicValue.getInstance().setItemModelList(itemModelList);
-        }
     }
 
 }
